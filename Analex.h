@@ -113,6 +113,14 @@ static const char *const PRTable[] = {
     [PUTREAL] = "putreal", 
     [PUTCHAR] = "putchar"
 };
-#endif
+extern TOKEN t;
+extern TOKEN lookahead;
+extern FILE *fd;
+extern int contLinha;
 
-int contLinha = 1;
+ // Contador de linhas do código fonte 
+
+#endif
+/* Assinaturas de funcoes */
+TOKEN AnaLex(FILE *);
+TOKEN AnaLexTLA(FILE *);
