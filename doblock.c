@@ -1,10 +1,15 @@
+//gcc -o doblock.exe doblock.c Analex.c
+//gcc -o doblock.exe doblock.c Analex.c anasint.c
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
 #include "Analex.h" 
-
+#include "anasint.h"
+#include "Tabidentific.h"
 
 TOKEN t;
 FILE *fd;
@@ -14,7 +19,9 @@ int testaanalex() {
   TOKEN tk;
   if ((fd = fopen("expressao.dat", "r")) == NULL) {
     printf("Arquivo de entrada da expressao nao encontrado!");
-  }
+   return 0;
+   }
+ 
 
   printf("LINHA %d: ", contLinha);
   while (1) {
@@ -56,4 +63,16 @@ int testaanalex() {
   fclose(fd);
 
   return 0;
+}
+
+void TestaAnasint() {
+
+
+}
+
+int main(){
+
+  testaanalex();
+
+  TestaAnasint();
 }
