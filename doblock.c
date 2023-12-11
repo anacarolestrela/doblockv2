@@ -1,5 +1,3 @@
-//gcc -o doblock.exe doblock.c Analex.c
-//gcc -o doblock.exe doblock.c Analex.c anasint.c
 //gcc -o doblock.exe TabIdentific.c analex.c anasint.c doblock.c Funcaux.c
 
 #include <stdio.h>
