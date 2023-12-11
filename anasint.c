@@ -4,6 +4,7 @@
 #include "Analex.h"
 #include "anasint.h"
 #include "Funcaux.h"
+#include "Tabidentific.h"
 
 TOKEN t;
 char nomeId[TAM_MAX_LEXEMA];
@@ -89,7 +90,7 @@ void Decl_list_var()
 
 
     while (t.cat  == SINAIS && t.codigo == VIRGULA)
-    {   //tf("entrou no while de mais de uma variavel");
+    {   //printf("entrou no while de mais de uma variavel");
         t = AnaLex(fd);
         Decl_var();
     }
@@ -110,7 +111,6 @@ void Decl_block_prot()
             t =AnaLex(fd);
             ref = 1;
         }
-        strcpy(nomeId, "");
         t =AnaLex(fd);
         while (t.cat ==SINAIS && t.codigo == ABRE_COL)
         {
@@ -460,6 +460,7 @@ void Cmd()
         {
             erro("ERRO 8: Abre parentese esperado");
         }
+
         t=AnaLex(fd);
         Expr();
 
@@ -520,7 +521,7 @@ void Atrib()
     }
     if(t.cat != SINAIS || t.codigo != ATRIB)
     {
-        erro("ERRO 9: Fecha parentese esperado"); //ESPERANDO fecha PARENTESES
+        erro("ERRO 10: Atribuição esperada esperado"); //ESPERANDO fecha PARENTESES
     }
     Expr();
 
@@ -542,7 +543,8 @@ void Expr()
 
 // [+ | – ] termo {(+ | – | ||) termo}
 void Expr_simp()
-{
+{      
+    t = AnaLex(fd);
     if(t.cat == SINAIS &&( t.codigo == ADICAO || t.codigo == SUBTRACAO))
     {
         t = AnaLex(fd);
@@ -561,6 +563,7 @@ void Expr_simp()
 void Termo()
 {
     Fator();
+    t = AnaLex(fd);
     while (t.cat ==SINAIS && (t.codigo == MULTIPLIC || t.codigo == BARA || t.codigo == AND))
     {
         t= AnaLex(fd);
@@ -621,7 +624,7 @@ void Fator()
 //         | >=
 //         | >
 void Op_rel()
-{
+{       t = AnaLex(fd);
     if(t.cat != SINAIS || (t.codigo != IGUAL && t.codigo != DIFERENCA && t.codigo != MENOR_IG && t.codigo != MENORQ && t.codigo != MAIOR_IG && t.codigo != MAIORQ))
     {
         erro("ERRO 7: Operador relacional esperado");
