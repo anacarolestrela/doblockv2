@@ -21,11 +21,8 @@ extern const char *const PRTable[];
 
 //prog ::= {decl_list_var} {decl_block_prot} block_main {block_def}
 void Prog()
-{           t = AnaLex(fd); 
-
-
-
-
+{           
+t = AnaLex(fd); 
 
 while (t.cat == PALAVRAS_RESERVADAS && (t.codigo == PR_INT || t.codigo == PR_CHAR || t.codigo == PR_FLOAT ||  
         t.codigo == PR_BOOL || t.codigo == CONST))
@@ -60,16 +57,15 @@ while (t.cat == PALAVRAS_RESERVADAS && (t.codigo == PR_INT || t.codigo == PR_CHA
         strcpy(blockAux, t.lexema);
         t =AnaLex(fd);
         Decl_block_prot();
-        if(t.cat != PALAVRAS_RESERVADAS && t.codigo  ==  BLOCK)
+        if(t.cat != PALAVRAS_RESERVADAS && t.codigo  ==  FECHA_COL)
         {
             erro("ERRO 2: Fecha colchete esperado");
         }
         t = AnaLex(fd);
     }
     escopo = GLOBAL;
-    catId = BLOCK;
-     //Block_main();
     catId =BLK;
+    Block_main();
     t =AnaLex(fd);
     while (t.cat ==PALAVRAS_RESERVADAS && t.codigo == BLOCK)
     {
@@ -137,7 +133,6 @@ void Decl_block_prot()
                 t =AnaLex(fd);
             }
         
-            strcpy(nomeId, "");
             t =AnaLex(fd);
             while (t.cat ==SINAIS && t.codigo == ABRE_COL)
             {
@@ -284,10 +279,6 @@ void Block_def()
     {
         erro("ERRO 5: ID esperado");
     }
-
-    strcpy(blockAux, t.lexema);
-    //int i = BuscaTabIdetifBlock(blockAux);
-   // i++;
     t =AnaLex(fd);
     if(t.cat == PALAVRAS_RESERVADAS && t.codigo == WITH)
     {
@@ -360,7 +351,7 @@ void Cmd()
         t = AnaLex(fd);
         if(t.cat ==ID)
         {
-            if(lookahead.cat == SINAIS && (lookahead.codigo == ABRE_COL || lookahead.codigo == ATRIB))
+            if(lookahead.cat == SINAIS && (lookahead.codigo == ABRE_COL))
             {
                 Cmd();
             }
