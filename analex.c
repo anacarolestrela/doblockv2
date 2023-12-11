@@ -6,13 +6,37 @@
 const char BLANK = ' ';
 const char NEW_LINE = '\n';
 const char TAB = '\t';
+int contLinha=1;
+TOKEN lookahead;
+
+extern const char *const PRTable[];
+
+TOKEN AnaLex(FILE *fd) {
+  static bool primVez = true;
+  TOKEN t;
+  if (primVez) {
+      primVez = false;
+      t = AnaLexTLA(fd);
+      if (t.cat == FIM_ARQ) lookahead = t;
+      else lookahead = AnaLexTLA(fd);
+      return t;
+  }
+  else if (lookahead.cat == FIM_ARQ) {
+      return(lookahead);
+  }
+  else {
+      t = lookahead;
+      lookahead = AnaLexTLA(fd);
+
+      return t;
+  }
+}
 
 void error(char msg[]) {
   printf("%s\n", msg);
   exit(1);
 }
 
-int contLinha=1;
 
 int buscaPR(char lexema[]) {
     size_t i;
@@ -25,14 +49,14 @@ int buscaPR(char lexema[]) {
     return -1;
 }
 
-TOKEN AnaLex(FILE *fd) {
-  int estado;
+TOKEN AnaLexTLA(FILE *fd) {
+  int estado = 0;
   char lexema[TAM_LEXEMA] = "";
   int tamL = 0;
   char digitos[TAM_NUM] = "";
   int tamD = 0;
-
-  TOKEN t;
+  int pr = 0, indexpr;
+  char caracter;
   estado = 0;
 
   while (true) {

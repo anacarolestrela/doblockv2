@@ -11,8 +11,8 @@ extern FILE *fd;
 //extern int contLinha;
 extern TOKEN lookahead;
 extern TAB_IDENTIF tabIdentif;
+extern const char *const PRTable[];
 
-extern bool mostraArvore;
 extern char TABS[200];
 
 void Prog();

@@ -1,6 +1,6 @@
 //gcc -o doblock.exe doblock.c Analex.c
 //gcc -o doblock.exe doblock.c Analex.c anasint.c
-
+//gcc -o doblock.exe TabIdentific.c analex.c anasint.c doblock.c Funcaux.c
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,13 +10,14 @@
 #include "Analex.h" 
 #include "anasint.h"
 #include "Tabidentific.h"
+#include "Funcaux.h"
 
-TOKEN t;
-FILE *fd;
+  FILE *fd;
+  TOKEN t;
 
 int testaanalex() {
   FILE *fd;
-  TOKEN tk;
+  TOKEN t;
   if ((fd = fopen("expressao.dat", "r")) == NULL) {
     printf("Arquivo de entrada da expressao nao encontrado!");
    return 0;
@@ -25,28 +26,28 @@ int testaanalex() {
 
   printf("LINHA %d: ", contLinha);
   while (1) {
-    tk = AnaLex(fd);
-    switch (tk.cat) {
+    t = AnaLex(fd);
+    switch (t.cat) {
     case ID:
-      printf(" <ID, %s> ", tk.lexema);
+      printf(" <ID, %s> ", t.lexema);
       break;
     case SINAIS:
-      printf(" <SINAIS, %s>", SinaisTable[tk.codigo]);
+      printf(" <SINAIS, %s>", SinaisTable[t.codigo]);
       break;
     case INTCON:
-      printf(" <INTCON, %d> ", tk.valInt);
+      printf(" <INTCON, %d> ", t.valInt);
       break;
     case REALCON:
-      printf("<REALCON, %f>", tk.valReal);
+      printf("<REALCON, %f>", t.valReal);
       break;
     case CHARCON:
-      printf(" <CHARCON, %c>", tk.valChar);
+      printf(" <CHARCON, %c>", t.valChar);
       break;
     case PALAVRAS_RESERVADAS:
-      printf(" <PALAVRAS_RESERVADAS, %s>", PRTable[tk.codigo]);
+      printf(" <PALAVRAS_RESERVADAS, %s>", PRTable[t.codigo]);
       break;
     case STRCON:
-      printf(" <STRCON, \"%s\">", tk.lexema);
+      printf(" <STRCON, \"%s\">", t.lexema);
       break;
     case FIM_EXPR:
       printf(" <FIM_EXPR>\n");
@@ -56,7 +57,7 @@ int testaanalex() {
       printf(" <Fim do arquivo encontrado>\n");
     }
 
-    if (tk.cat == FIM_ARQ)
+    if (t.cat == FIM_ARQ)
       break;
   }
 
@@ -67,12 +68,35 @@ int testaanalex() {
 
 void TestaAnasint() {
 
+  if ((fd = fopen("expressao.dat", "r")) == NULL) {
+    printf("Arquivo de entrada da expressao nao encontrado!");
+  }
+  IniciaTabIdentif();
+    if (t.cat == FIM_ARQ) {
+        printf("\nFim do arquivo encontrado!\n");
+    }
 
+  Prog();
+
+    if (t.cat==FIM_ARQ)
+          printf("\nCódigo fonte sintaticamente correto!\n");
+      else {
+        printf("\n%d\n", t.cat);
+        if(t.cat == ID){
+          printf("%s\n", t.lexema);
+        }else if(t.cat == PALAVRAS_RESERVADAS){
+          printf("%s\n", PRTable[t.codigo]);
+        }
+        erro("\nErro de sintaxe!");
+      }
+  
+    fclose(fd);
+   
 }
 
 int main(){
-
-  testaanalex();
-
+  // printf("TESTAGEM ANALISADOR LEXICO\n");
+   //testaanalex();
+  printf("\nTESTAGEM ANALISADOR SINTAICO\n");
   TestaAnasint();
 }
