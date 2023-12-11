@@ -631,8 +631,7 @@ void Fator()
 //         | >
 void Op_rel()
 {
-    if(t.cat != SINAIS || (t.codigo != IGUAL && t.codigo != DIFERENCA && t.codigo != MENOR_IG &&
-    t.codigo != MENORQ && t.codigo != MAIOR_IG && t.codigo != MAIORQ))
+    if(t.cat != SINAIS || (t.codigo != IGUAL && t.codigo != DIFERENCA && t.codigo != MENOR_IG && t.codigo != MENORQ && t.codigo != MAIOR_IG && t.codigo != MAIORQ))
     {
         erro("ERRO 7: Operador relacional esperado");
     }    
