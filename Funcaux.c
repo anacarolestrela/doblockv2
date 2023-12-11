@@ -5,10 +5,6 @@
 #include "Funcaux.h"
 #include "Cores.h"
 
-// void erro(char msg[]) {
-//     printf("LINHA %d: %s\n", contLinha, msg);
-//     exit(1);
-// }
 
 
 
